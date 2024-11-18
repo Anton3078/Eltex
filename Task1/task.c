@@ -9,10 +9,10 @@ int main(void) {
     
     if (num < 0) {
         printf("Число отрицательное\n");
-        return 0;
+        return 1;
     }
 
-    printf("Вы ввели: %b\n", num, num);
+    printf("Вы ввели: %b\n", num);
 
     return 0;
 }
