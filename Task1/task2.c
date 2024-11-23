@@ -12,7 +12,7 @@ int main(void) {
         return 0;
     }
 
-    printf("Вы ввели: %b\n", num, num);
+    printf("Вы ввели: %b\n", num);
 
     return 0;
 }
