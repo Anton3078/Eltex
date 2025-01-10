@@ -1,6 +1,6 @@
 main: main.o add.o remove.o getall.o findName.o equalStr.o clear.o
 	gcc main.o add.o remove.o getall.o findName.o equalStr.o clear.o -o main
-	rm *.o *.h.*
+	
 
 remove.o: remove.c struct.h
 	gcc remove.c struct.h -c -Wextra -Wall -Werror -std=c89 -g
