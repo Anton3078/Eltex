@@ -11,24 +11,7 @@ int GetAll(struct list* guid) {
 
     struct abonent* cur_peop = guid->Tail;
     int i;
-    /*
-    int temp_counter = 0;
-     
-    while (temp_counter != guid->size) {
-        
-        printf("=================================================\n");
-        printf("Name: %s\n", cur_peop->name);
-        printf("-------------------------------------------------\n");
-        printf("Second name: %s\n", cur_peop->second_name);
-        printf("-------------------------------------------------\n");
-        printf("Phone: %s\n", cur_peop->tel);
-        printf("=================================================\n");
-            
-        cur_peop = cur_peop->nextP;
-        ++temp_counter;
     
-    }
-    */
     for (i = 0; i < guid->size; ++i) {
 
         printf("=================================================\n");
