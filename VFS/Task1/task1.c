@@ -22,6 +22,7 @@ int main(void) {
 
     if (fd == NULL) {
        fprintf(stderr, "Error of opening file\n");
+       fclose(fd);
        free(buff);
        exit(EXIT_FAILURE);
     }
