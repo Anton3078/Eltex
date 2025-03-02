@@ -1,5 +1,4 @@
 #include <stdlib.h>
-#include <ncurses.h>
 #include <string.h>
 #include <dirent.h>
 #include <sys/stat.h>

@@ -1,5 +1,4 @@
 #include <stdlib.h>
-#include <ncurses.h>
 #include "midnight_commander.h"
 
 void draw_panel(WINDOW *wnd, struct File_st *files, int count, int pos, int is_act, const char *title) {

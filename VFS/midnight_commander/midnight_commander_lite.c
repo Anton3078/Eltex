@@ -1,6 +1,5 @@
 #include <sys/ioctl.h>
 #include <stdlib.h>
-#include <ncurses.h>
 #include <termios.h>
 #include <signal.h>
 #include <string.h>
@@ -98,7 +97,7 @@ int main (int argc, char **argv) {
 
                     if (new_file->is_dir) {
                         char new_path[MAX_FILENAME];
-                        snprintf(new_path, MAX_FILENAME * 2::, "%s/%s", path_right_panel, new_file->name);
+                        snprintf(new_path, MAX_FILENAME * 2, "%s/%s", path_right_panel, new_file->name);
                         char full_path[MAX_FILENAME];
 
                         if (realpath(new_path, full_path)) {
