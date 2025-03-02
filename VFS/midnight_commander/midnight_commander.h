@@ -1,7 +1,6 @@
 #ifndef _MID_NIGTH_CM_
 #define _MID_NIGTH_CM_
 
-#include <stdlib.h>
 #include <ncurses.h>
 
 #define MAX_FILES 50
