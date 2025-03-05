@@ -12,5 +12,5 @@ sub.o: sub.c
 mul.o: mul.c
 	gcc mul.c -c -Wall -Werror
 
-div.o: div.c calc.h
+div.o: div.c
 	gcc div.c -c -Wall -Werror
