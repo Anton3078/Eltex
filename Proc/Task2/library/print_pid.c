@@ -7,6 +7,7 @@
 
 void 
 creat_proc(int count_inner_proc) {
+    /*создаёт определённое количество процессов и выводит их PID PPID */
     pid_t child_pid, stat;
     int i;
 
