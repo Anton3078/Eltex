@@ -8,7 +8,7 @@
 
 int
 main(int argc, char* argv[]) {
-    pid_t child_pid;
+    pid_t child_pid, stat;
     char *argVec[5];
     char command[30];
 
@@ -34,11 +34,10 @@ main(int argc, char* argv[]) {
 
                 exit(EXIT_FAILURE);
             default:
-                wait(NULL);
+                wait(&stat);
                 memset(command, 0, sizeof(command));
                 memset(argVec, 0, sizeof(argVec));
         }
     
     }
-    exit(EXIT_SUCCESS);
 }
