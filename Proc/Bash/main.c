@@ -5,6 +5,27 @@
 #include <string.h>
 #include <unistd.h>
 #include "mystring.h"
+#include <pwd.h>
+#include <limits.h>
+
+void print_info() {
+    char hostname[32];
+    char cwd[PATH_MAX];
+    char *username;
+
+    struct passwd *pwd = getpwuid(getuid());
+    username = pwd->pw_name;
+    gethostname(hostname, sizeof(hostname));
+
+    if (getcwd(cwd, sizeof(cwd)) == NULL) {
+        perror("getcwd");
+        strcpy(cwd, "???");
+    }
+
+    printf("%s@%s:%s$ ", username, hostname, cwd);
+    fflush(stdout);
+}
+
 
 int
 main(int argc, char* argv[]) {
@@ -13,7 +34,7 @@ main(int argc, char* argv[]) {
     char command[30] = {0};
 
     while(1) {
-        printf("@: ");
+        print_info();
 
         MyStr(command);
         
