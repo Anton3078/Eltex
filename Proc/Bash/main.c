@@ -22,6 +22,20 @@ main(int argc, char* argv[]) {
         }
 
         get_tokens(argVec, command);
+        
+        if (strcmp(argVec[0], "cd") == 0) {
+            if (argVec[1] == NULL) {
+                if (chdir(".") != 0)
+                        perror("cd");
+            } else {
+                if (chdir(argVec[1]) != 0)
+                        perror("cd");
+
+            }
+            memset(command, 0, sizeof(command));
+            memset(argVec, 0, sizeof(argVec));
+            continue;
+        }
 
         if (signal(SIGCHLD, SIG_IGN) == SIG_ERR) {
             perror("signal");
