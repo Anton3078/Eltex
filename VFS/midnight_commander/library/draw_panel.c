@@ -1,7 +1,8 @@
 #include <stdlib.h>
-#include "midnight_commander.h"
+#include "mid_command.h"
 
-void draw_panel(WINDOW *wnd, struct File_st *files, int count, int pos, int is_act, const char *title) {
+void
+draw_panel(WINDOW *wnd, struct File_st *files, int count, int pos, int is_act, const char *title) {
     werase(wnd);
     start_color();
     init_pair(1, COLOR_WHITE, COLOR_BLUE);
