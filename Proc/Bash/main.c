@@ -8,7 +8,8 @@
 #include <pwd.h>
 #include <limits.h>
 
-void print_info() {
+void 
+print_info() {
     char hostname[32];
     char cwd[PATH_MAX];
     char *username;
