@@ -10,13 +10,17 @@ int
 main(int argc, char* argv[]) {
     pid_t child_pid, stat;
     char *argVec[5];
-    char command[30];
+    char command[30] = {0};
 
     while(1) {
         printf("@: ");
 
         MyStr(command);
         
+        if (strncmp(command, "exit", 4) == 0) {
+           break; 
+        }
+
         get_tokens(argVec, command);
 
         if (signal(SIGCHLD, SIG_IGN) == SIG_ERR) {
@@ -31,7 +35,7 @@ main(int argc, char* argv[]) {
                 exit(EXIT_FAILURE);
             case 0:
                 execvp(argVec[0], argVec);
-
+                perror("execvp");
                 exit(EXIT_FAILURE);
             default:
                 wait(&stat);
