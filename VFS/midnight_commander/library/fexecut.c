@@ -1,22 +1,40 @@
-#include <stdlib.h>
-#include <string.h>
-#include <sys/stat.h>
 #include "mid_command.h"
+#include <unistd.h>
+#include <sys/wait.h>
+#include <stdlib.h>
 
 void
-fexecut (char path_panel[MAX_FILENAME], struct File_st panel[MAX_FILES], struct File_st *new_file, int *wnd_num, int* wnd_pos) {
-        char new_path[MAX_FILENAME];
-        snprintf(new_path, MAX_FILENAME * 2, "%s/%s", path_panel, new_file->name);
-        char full_path[MAX_FILENAME];
+fexecut (struct File_st *new_file, char path_panel[MAX_FILENAME]) {
+    /*Открывает файл в vim*/
+    pid_t child_pid, stat;
 
-        if (realpath(new_path, full_path)) {
-                struct stat st;
-
-                if (stat(full_path, &st) == 0 && S_ISDIR(st.st_mode)) {
-                        strncpy(path_panel, full_path, MAX_FILENAME);
-                        *wnd_num = 0;
-                        read_dir(path_panel, panel, wnd_num);
-                        *wnd_pos = 0;
-        }
+    if (signal(SIGCHLD, SIG_IGN) == SIG_ERR) {
+       perror("signal");
+       exit(EXIT_FAILURE);
     }
+
+    child_pid = fork();
+
+    switch (child_pid) {
+        case -1:
+            perror("fork");
+            exit(EXIT_FAILURE);
+
+        case 0:
+            char file_path[MAX_FILENAME * 2];
+            snprintf(file_path, sizeof(file_path), "%s/%s", path_panel, new_file->name);
+            endwin();
+            execlp("vim", "vim", file_path, (char *) NULL);
+            exit(EXIT_FAILURE);
+
+        default:
+            wait(&stat);
+
+            reset_prog_mode();
+            clearok(stdscr, TRUE);
+            refresh();
+
+
+
+        }
 }

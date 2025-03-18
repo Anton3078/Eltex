@@ -7,6 +7,7 @@
 
 void
 read_dir(const char *path, struct File_st *files, int *count) {
+    /*читает текущую директорию*/
     struct dirent **namelist;
     struct stat st;
     int n = scandir(path, &namelist, NULL, alphasort);
@@ -37,12 +38,7 @@ read_dir(const char *path, struct File_st *files, int *count) {
             files[*count].size = 0;
             files[*count].is_dir = 0;
         }
-        /*
-        if (stat(namelist[n]->d_name, &st) == 0 && S_ISREG(st.st_mode)) {
-            files[*count].size = st.st_size;
-        }
-        files[*count].is_dir = (namelist[n]->d_type == DT_DIR);
-        */
+        
         (*count)++;
         free(namelist[n]);
     }

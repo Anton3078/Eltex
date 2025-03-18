@@ -15,5 +15,6 @@ struct File_st {
 
 void read_dir(const char *, struct File_st *, int *);
 void draw_panel(WINDOW *, struct File_st *, int, int, int, const char *);
-void fexecut(char [MAX_FILENAME], struct File_st [MAX_FILES], struct File_st *, int*, int*);
+void open_dir(char [MAX_FILENAME], struct File_st [MAX_FILES], struct File_st *, int*, int*);
+void fexecut(struct File_st *, char [MAX_FILENAME]);
 #endif

@@ -22,8 +22,6 @@ sig_winch(int sigon) {
 
 int 
 main (int argc, char **argv) {
-    
-    pid_t child_pid, stat;
 
     struct File_st left_panel[MAX_FILES];
     struct File_st right_panel[MAX_FILES];
@@ -93,82 +91,18 @@ main (int argc, char **argv) {
                     struct File_st *new_file = &left_panel[left_wnd_pos];
 
                     if (new_file->is_dir) {
-                        fexecut(path_left_panel, left_panel, new_file, &left_wnd_num, &left_wnd_pos);
+                        open_dir(path_left_panel, left_panel, new_file, &left_wnd_num, &left_wnd_pos);
                     } else {
-                          child_pid = fork();
-                          
-                          switch (child_pid) {
-                              case -1:
-                                  perror("fork");
-                                  exit(EXIT_FAILURE);
-                            
-                              case 0:
-                                  char file_path[MAX_FILENAME * 2];
-                                  snprintf(file_path, sizeof(file_path), "%s/%s", path_left_panel, new_file->name);
-                                  endwin();
-                                  execlp("vim", "vim", file_path, (char *) NULL);
-                                  exit(EXIT_FAILURE);
-                            
-                              default:
-                                  wait(&stat);
-                                  
-                                  reset_prog_mode();
-                                  refresh();
-
-                                  touchwin(stdscr);
-                                  wrefresh(stdscr);
-                                  touchwin(left_wnd);
-                                  wrefresh(left_wnd);
-                                  touchwin(right_wnd);
-                                  wrefresh(right_wnd);  
-                                  
-                                  read_dir(path_left_panel, left_panel, &left_wnd_num);
-                                  read_dir(path_right_panel, right_panel, &right_wnd_num);
- 
-                                  draw_panel(left_wnd, left_panel, left_wnd_num, left_wnd_pos, 1 == is_left, "Left Panel");
-                                  draw_panel(right_wnd, right_panel, right_wnd_num, right_wnd_pos, 0 == is_left, "Right Panel");
-                        }              
+                        fexecut(new_file, path_left_panel);
                     } 
                 } else {
                     struct File_st *new_file = &right_panel[right_wnd_pos];
 
                     if (new_file->is_dir) {
-                       fexecut(path_right_panel, right_panel, new_file, &right_wnd_num, &right_wnd_pos);
+                       open_dir(path_right_panel, right_panel, new_file, &right_wnd_num, &right_wnd_pos);
                     } else {
-                        child_pid = fork();
-                        
-                        switch (child_pid) {
-                            case -1:
-                                perror("fork");
-                                exit(EXIT_FAILURE);
-                            
-                            case 0:
-                                char file_path[MAX_FILENAME * 2];
-                                snprintf(file_path, sizeof(file_path), "%s/%s", path_right_panel, new_file->name); 
-                                endwin();
-                                execlp("vim", "vim", file_path, (char *) NULL);
-                                exit(EXIT_FAILURE);
-                            
-                            default:
-                                wait(&stat);
-                                
-                                reset_prog_mode();
-                                clearok(stdscr, TRUE);
-                                refresh();
 
-                                touchwin(stdscr);
-                                wrefresh(stdscr);
-                                touchwin(left_wnd);
-                                wrefresh(left_wnd);
-                                touchwin(right_wnd);
-                                wrefresh(right_wnd);
-                                
-                                read_dir(path_left_panel, left_panel, &left_wnd_num);
-                                read_dir(path_right_panel, right_panel, &right_wnd_num);
-                                
-                                draw_panel(left_wnd, left_panel, left_wnd_num, left_wnd_pos, 1 == is_left, "Left Panel");
-                                draw_panel(right_wnd, right_panel, right_wnd_num, right_wnd_pos, 0 == is_left, "Right Panel");
-                        }              
+                        fexecut(new_file,  path_right_panel);
                     }
                 }
 

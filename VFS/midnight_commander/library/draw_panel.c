@@ -3,6 +3,7 @@
 
 void
 draw_panel(WINDOW *wnd, struct File_st *files, int count, int pos, int is_act, const char *title) {
+    /*Отрисовывает паенль содержаю текущую директорию данной панели*/
     werase(wnd);
     start_color();
     init_pair(1, COLOR_WHITE, COLOR_BLUE);
