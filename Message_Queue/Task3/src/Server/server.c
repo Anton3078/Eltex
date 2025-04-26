@@ -1,60 +1,77 @@
 #include "../../include/msg_queue.h"
 
-int main() {
-    mqd_t mqdes_usr, mqdes_msg;
-    unsigned int msg_prio = 0;
-    struct mq_attr attr, *attrp;
+int 
+main() 
+{
+    mqd_t mqdes_usr;
+    struct mq_attr attr;
     
     attr.mq_maxmsg = MAX_MSG;
     attr.mq_msgsize = sizeof(struct Message);
     attr.mq_flags = 0;
-    attrp = &attr;
     
+    struct DataChat chat = {0};
+
     mq_unlink(PATH_QUEUE_USR);
-    mq_unlink(PATH_QUEUE_MSG);
     
-    if ((mqdes_usr = mq_open(PATH_QUEUE_USR, O_RDWR | O_CREAT, 0666, attrp)) == (mqd_t)-1) {
+    if ((mqdes_usr = mq_open(PATH_QUEUE_USR, O_RDONLY | O_CREAT, 0664, &attr)) == (mqd_t)-1) {
         perror("mq_open_usr");
         exit(EXIT_FAILURE);
     }
 
-    if ((mqdes_msg = mq_open(PATH_QUEUE_MSG, O_RDWR | O_CREAT, 0666, attrp)) == (mqd_t)-1) {
-        perror("mq_open_msg");
-        exit(EXIT_FAILURE);
-    }
-
-    char active_users[MAX_USR][MAX_USR_NAME];
-    int user_count = 0;
-    
     printf("===Server is starting===\n");
     
     while (1) {
-        struct Message msg;
-        if (mq_receive(mqdes_usr, (char *)&msg, sizeof(msg), &msg_prio) == -1) {
+        struct Message msg = {0};
+        if (mq_receive(mqdes_usr, (char *)&msg, sizeof(msg), NULL) == -1) {
             perror("mq_receive");
             continue;
         }
 
         switch (msg.type) {
             case USER_JOIN:
-                add_user(msg.user, active_users, &user_count);
-                broadcast(mqdes_msg, &msg, active_users, user_count);
-                printf("User: %s joined the chat\tUser count:%d\n", msg.user, user_count);
-                break;
+               if (chat.usr_count >= MAX_USR) {
+                    fprintf(stderr, "User limit reached\n");
+                    continue;
+                }
+                add_user(msg.sender, &chat);
+    
+                char client_queue[32];
+                snprintf(client_queue, sizeof(client_queue), "/mq_%s", msg.sender);
+                mqd_t client_mq = mq_open(client_queue, O_WRONLY | O_CREAT, 0664, &attr);
+    
+                send_init_data(client_mq, &chat, msg.sender);
+                broadcast(mqdes_usr, &msg, &chat);
+                printf("[+] %s joined. Users: %d\n", msg.sender, chat.usr_count);
+                mq_close(client_mq);
+                break; 
+            
             case CHAT_MSG:
-                broadcast(mqdes_msg, &msg, active_users, user_count);
-                break;
+                if (chat.msg_count < MAX_MSG) {
+                    chat.msg_hist[chat.msg_count++] = msg;
+                } else {
+                    for (int i = 0; i < chat.msg_count; i++) {
+                        chat.msg_hist[i] = chat.msg_hist[i + 1];
+                    }
+                    chat.msg_hist[MAX_MSG - 1] = msg;
+
+                }
+                broadcast(mqdes_usr, &msg, &chat);
+                printf("[#] %s send message\n", msg.sender);
+                break; 
+            
             case USER_LEAVE:
-                remove_user(msg.user, active_users, &user_count);
-                broadcast(mqdes_msg, &msg, active_users, user_count);
-                printf("User: %s left the chat\tUser count:%d\n", msg.user, user_count);
+                remove_user(msg.sender, &chat);
+                broadcast(mqdes_usr, &msg, &chat);
+                printf("[-] %s left. User: %d\n", msg.sender, chat.usr_count);
                 break;
-       }
+
+            default:
+                fprintf(stderr, "Unknow message type\n");
+        }
     }
 
     mq_close(mqdes_usr);
-    mq_close(mqdes_msg);
     mq_unlink(PATH_QUEUE_USR);
-    mq_unlink(PATH_QUEUE_MSG);
-    return 0;
+    exit(EXIT_FAILURE);
 }

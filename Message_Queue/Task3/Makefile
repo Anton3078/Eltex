@@ -4,7 +4,7 @@ LDFLAGS = -lncurses -pthread -lrt -L./lib -lchat
 LIB_NAME = libchat.so.0.1
 LIB_LINK = libchat.so
 
-SRC_LIB = src/add_user.c src/remove_user.c src/broadcast.c #src/init_data.c
+SRC_LIB = src/add_user.c src/remove_user.c src/broadcast.c src/init_data.c
 SRC_CLIENT = src/Client/client.c
 SRC_SERVER = src/Server/server.c
 

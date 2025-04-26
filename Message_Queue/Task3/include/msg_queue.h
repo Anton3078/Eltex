@@ -11,23 +11,48 @@
 #include <pthread.h>
 #include <ncurses.h>
 
-#define PATH_QUEUE_MSG "/mq_msg"
 #define PATH_QUEUE_USR "/mq_usr"
+
 #define MAX_MSG_LEN 1024
-#define MAX_MSG 4
+#define MAX_MSG 8
 #define MAX_USR 4
-#define MAX_USR_NAME 32
+#define MAX_USR_NAME 16
 
-enum MsgType { USER_JOIN, CHAT_MSG, USER_LEAVE };
-
-struct Message {
-    enum MsgType type;
-    char user[MAX_USR_NAME];
-    char mtext[MAX_MSG_LEN];
+enum MsgType 
+{ /* Типы сообщений */
+    USER_JOIN,    // Новый пользователь
+    CHAT_MSG,     // Обычное сообщение
+    USER_LEAVE,   // Выход пользователя
+    INIT_USERS,   // Инициализация списка пользователей
+    INIT_HISTORY  // Инициализация истории сообщений
 };
 
-void add_user(const char *, char [MAX_USR][MAX_USR_NAME], int *);
-void remove_user(const char *, char [MAX_USR][MAX_USR_NAME], int *);
-void broadcast(mqd_t, struct Message *, char [MAX_USR][MAX_USR_NAME], int);
+struct Message 
+{ /* Структура сообщений */ 
+    enum MsgType type;              // Тип сообщения
+    char sender[MAX_USR_NAME];      // Имя отправителя
+    char receiver[MAX_USR_NAME];    // Имя получателя 
+    char mtext[MAX_MSG_LEN];        // Текст сообщения
+};
+
+struct DataChat 
+{ /* Состояние чата на сервере */
+    char act_usrs[MAX_USR][MAX_USR_NAME]; // Активные пользователи
+    int usr_count;                        // Количество пользователей
+    struct Message msg_hist[MAX_MSG];     // История сообщений
+    int msg_count;                        // Счётчик сообщений
+};
+
+/* добавление новых пользователей в структуру чата*/
+void add_user(const char *, struct DataChat *);             
+
+/* удаление пользователя из  чата*/
+void remove_user(const char *, struct DataChat *);
+
+/* рассылка сообщений в общий чата*/
+void broadcast(mqd_t, struct Message *, struct DataChat *);
+
+/* одиночная рассылка (история чата/активные пользователи)*/
+void send_init_data(mqd_t, struct DataChat *, const char *);
 
 #endif

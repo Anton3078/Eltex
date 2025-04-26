@@ -1,21 +1,17 @@
 #include "../include/msg_queue.h"
 
 void 
-add_user(const char *username, char users[MAX_USR][MAX_USR_NAME], int *usr_count) 
-{
-    /*
-    if (*usr_count >= MAX_USR) {
+add_user(const char *username, struct DataChat *chat) 
+{ /*  доабвление новых пользователей*/
+    if (chat->usr_count >= MAX_USR) {
         fprintf(stderr, "User limit reached\n");
         return;
     }
-
-    for (int i = 0; i < *usr_count; i++) {
-        if (strcmp(users[i], username) == 0) {
-            fprintf(stderr, "User already exists\n");
-            return;
-        }
+    
+    if (strlen(username) >= MAX_USR_NAME) {
+        fprintf(stderr, "name exceeds maximum length\n");
+        return;
     }
-    */
-    strncpy(users[*usr_count], username, MAX_USR_NAME);
-    (*usr_count)++;
+
+    strncpy(chat->act_usrs[chat->usr_count++], username, MAX_USR_NAME);
 }
