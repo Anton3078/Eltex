@@ -4,7 +4,7 @@ WINDOW *chat_win, *users_win, *input_win;
 
 void* 
 receive_messages(void *arg) 
-{/*поток читающий из очереди сообщений*/
+{/*поток читающий из личной очереди сообщений*/
     mqd_t mqdes_usr = *((mqd_t *)arg);
     struct DataChat client_data = {0}; 
 
