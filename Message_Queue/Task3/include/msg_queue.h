@@ -31,7 +31,6 @@ struct Message
 { /* Структура сообщений */ 
     enum MsgType type;              // Тип сообщения
     char sender[MAX_USR_NAME];      // Имя отправителя
-    char receiver[MAX_USR_NAME];    // Имя получателя 
     char mtext[MAX_MSG_LEN];        // Текст сообщения
 };
 
