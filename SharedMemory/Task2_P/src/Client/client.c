@@ -15,8 +15,6 @@ main ()
     if ((shm_fd = shm_open(SHM_NAME, O_RDWR, 0660)) == -1)
        errExit("shm_open");
     
-    //ftruncate(shm_fd, MAX_MSG_LEN);
-    
     msg = (char *) mmap(NULL, MAX_MSG_LEN, PROT_READ | PROT_WRITE, MAP_SHARED, shm_fd, 0);
 
     printf("%s\n", msg);
