@@ -15,10 +15,11 @@ TARGET_LIB = lib/$(LIB_NAME)
 TARGET_LIB_LINK = lib/$(LIB_NAME).0
 TARGET_CLIENT = bin/client
 TARGET_SERVER = bin/server
+TARGET_QUEUE = /tmp/my_msg_queue
 
 .PHONY: all clean
 
-all: $(TARGET_LIB) $(TARGET_LIB_LINK) $(TARGET_CLIENT) $(TARGET_SERVER)
+all: $(TARGET_LIB) $(TARGET_LIB_LINK) $(TARGET_CLIENT) $(TARGET_SERVER) $(TARGET_QUEUE)
 
 $(TARGET_LIB): $(OBJ_LIB)
 	@mkdir -p lib
@@ -33,6 +34,9 @@ $(TARGET_CLIENT): $(OBJ_CLIENT) $(TARGET_LIB)
 
 $(TARGET_SERVER): $(OBJ_SERVER) $(TARGET_LIB)
 	$(CC) -o $@ $(OBJ_SERVER) $(LDFLAGS) -Wl,-rpath,'$$ORIGIN/../lib'
+
+$(TARGET_QUEUE):
+	@touch /tmp/my_msg_queue
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c -o $@ $<
