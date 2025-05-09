@@ -44,4 +44,6 @@ $(TARGET_QUEUE):
 clean:
 	rm -f $(OBJ_LIB) $(OBJ_CLIENT) $(OBJ_SERVER)
 	rm -f $(TARGET_LIB) $(TARGET_LIB_LINK) $(TARGET_CLIENT) $(TARGET_SERVER)
+	rm -f $(TARGET_QUEUE)
 	rm -rf bin lib
+
