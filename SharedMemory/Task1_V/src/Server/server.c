@@ -8,9 +8,7 @@ main ()
     int shmid, semid;
     char *shmaddr;
 
-
     struct sembuf lock[1] = {{0, -1, 0}};
-//    struct sembuf unlock[2] = {{0, 1, 0}};
     
     char *str = "Hi!";
 
