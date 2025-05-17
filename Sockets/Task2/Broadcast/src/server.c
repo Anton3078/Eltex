@@ -20,8 +20,6 @@ main ()
     if (inet_pton(AF_INET, BROADCAST_IP, &bcaddr.sin_addr) <= 0)
        errExit("inet_pton");
 
-    //bcaddr.sin_addr.s_addr = inet_addr(BROADCAST_IP);
-
     if (sendto(sockFd, msg, strlen(msg), 0, (struct sockaddr *)&bcaddr, sizeof(bcaddr)) == -1)
        errExit("sendto");
 
