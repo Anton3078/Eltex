@@ -3,7 +3,6 @@
 int
 main ()
 {
-    //unsigned char buf[BUF_SIZE];
     int sockFd;
     int flag = 1;
     char *msg = "Hello Client";
