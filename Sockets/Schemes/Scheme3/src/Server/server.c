@@ -39,7 +39,6 @@ main ()
     for (int i = 0; i < MAX_SERVER; ++i) {
         if (fork() == 0) {
             handler_serv(reqs);
-            exit(0);
         }
     }
 
