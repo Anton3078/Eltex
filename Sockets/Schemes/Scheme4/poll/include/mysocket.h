@@ -9,8 +9,7 @@
 #include <ctype.h>
 #include <netinet/in.h>
 #include <unistd.h>
-#include <pthread.h>
-#include <malloc.h>
+#include <time.h>
 #include <poll.h>
 
 #define errExit(msg) do { perror(msg); exit(EXIT_FAILURE); } while(0)

@@ -18,5 +18,4 @@ send_time (struct con_addr * connection)
     }
 
     printf("Executing server for %s client\n", connection->proto == TCP ? "TCP" : "UDP");    
-    fflush(stdout);
 }
