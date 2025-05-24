@@ -24,7 +24,6 @@ main ()
     if (inet_pton(AF_INET, MULTICAST_GROUP, &mreq.imr_multiaddr.s_addr) <= 0)
        errExit("inet_pton (multiaddr)");
     mreq.imr_address.s_addr = INADDR_ANY;
-    //mreq.imr_ifindex = 0;
 
     if (setsockopt(sockFd, IPPROTO_IP, IP_ADD_MEMBERSHIP, &mreq, sizeof(mreq)) == -1)
        errExit("setsockopt");
