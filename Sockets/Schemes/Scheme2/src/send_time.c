@@ -15,8 +15,4 @@ send_time (int clFd)
     send(clFd, buf, strlen(buf) + 1, 0);
     
     printf("Executing server for client %d (Thread ID: %lu)\n", clFd, pthread_self());    
-    //fflush(stdout);
-    
-    //if (close(clFd) == -1)
-    //   errExit("close");
 }
