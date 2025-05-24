@@ -59,7 +59,6 @@ main ()
               errExit("recv (tcp)");
            
            struct con_addr connection;
-
            connection.proto = TCP;
            connection.sockFd = tcp_clFd;
 
@@ -80,7 +79,6 @@ main ()
               errExit("recvfrom");
            
            struct con_addr connection;
-
            connection.proto = UDP;
            connection.sockFd = udp_sockFd;
            connection.addr = (struct sockaddr *)&claddr;

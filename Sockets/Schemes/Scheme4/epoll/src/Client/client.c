@@ -1,6 +1,8 @@
 #include "../../include/mysocket.h"
 
-int main() {
+int 
+main() 
+{
     int sock;
     struct sockaddr_in addr;
     char *msg = "Get current time";
