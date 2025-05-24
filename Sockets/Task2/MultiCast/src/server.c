@@ -23,6 +23,4 @@ main ()
        errExit("close");
 
     exit(EXIT_SUCCESS);
-
-
 }

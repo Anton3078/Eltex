@@ -1,9 +1,8 @@
 CC = gcc
-CFLAGS = -Wall -Werror -g
+CFLAGS = -Wall -Werror -g -I./include
 
 SRC_CLIENT = src/client.c
 SRC_SERVER = src/server.c
-HEADERS = include/myocketh
 
 OBJ_CLIENT = $(SRC_CLIENT:.c=.o)
 OBJ_SERVER = $(SRC_SERVER:.c=.o)
