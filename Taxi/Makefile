@@ -1,6 +1,6 @@
 CC = gcc
 CFLAGS = -Wall -Werror -g -I./include
-LDFLAGS = -lrt -lpthread
+LDFLAGS = -lrt
 
 SRC_CLI_UTILS = src/cli_utils.c
 SRC_DRIVER = src/drive_utils.c src/handle_driver.c
