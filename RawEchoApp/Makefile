@@ -1,6 +1,6 @@
 CC = gcc
 CFLAGS = -Wall -Werror -I./include -g -fPIC
-LDFLAGS = -pthread -g -Wl,-rpath='$$ORIGIN/../lib'
+LDFLAGS = -Wl,-rpath='$$ORIGIN/../lib'
 LIB_LDFLAGS = -shared -Wl,-soname,libmysocket.so.0
 
 SRC_CLIENT = src/Client/client.c
