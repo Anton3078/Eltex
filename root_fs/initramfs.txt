@@ -1,0 +1,14 @@
+===== init.c =====
+1. создал файл init.c
+2. arm-linux-gnueabihf-gcc -static init.c -o init
+3. echo init | cpio -o -H newc | gzip > initramfs.cpio.gz
+4. QEMU_AUDIO_DRV=none qemu-system-arm -M vexapress-a9 -kernel zImage -initrd initramfs.cpio.gz  -dtb vexpress-v2p-ca9.dtb -append "console=ttyAMA0" -nographic
+
+===== BusyBox =====
+1. ARCH=arm make defconfig
+2. ARCH=arm make menuconfig
+3. make -j2
+4. make install -j2
+5. Создал директорию lib и перенёс туда зависимости
+6. find . | cpio -o -H newc | gzip > initramfs.cpio.gz 
+7. QEMU_AUDIO_DRV=none qemu-system-arm -M vexapress-a9 -kernel zImage -initrd initramfs.cpio.gz  -dtb vexpress-v2p-ca9.dtb -append "console=ttyAMA0 rdinit=/bin/ash" -nographic 
