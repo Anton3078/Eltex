@@ -1,0 +1,16 @@
+===== OpenSSH =====
+1. autoreconf -fvi
+2. ./configure --host=arm-linux-gnueabihf --with-ssl-dir=$PWD/../openssl/_install --with-zlib=$PWD/../zlib/_install/usr/local --prefix=$PWD/_install 
+3. make -j2
+4. DESTDIR=$PWD/_install make install
+
+===== Zlib =====
+1. git checkout v1.2.13
+2. CC=arm-linux-gnueabihf-gcc ./configure
+3. make
+4. DESTDIR=$PWD/_install make install
+
+===== Opensll =====
+1. ./Configure linux-generic32 --prefix=$PWD/_install --cross-compile-prefix=arm-linux-gnueabihf- --with-zlib-include=$PWD/../zlib/_install/usr/local/include --with-zlib-lib=$PWD/../zlib/_install/usr/local/lib
+2. make -j2
+3. make install
