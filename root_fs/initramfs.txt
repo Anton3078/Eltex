@@ -11,4 +11,4 @@
 4. make install -j2
 5. Создал директорию lib и перенёс туда зависимости
 6. find . | cpio -o -H newc | gzip > initramfs.cpio.gz 
-7. QEMU_AUDIO_DRV=none qemu-system-arm -M vexapress-a9 -kernel zImage -initrd initramfs.cpio.gz  -dtb vexpress-v2p-ca9.dtb -append "console=ttyAMA0 rdinit=/bin/ash" -nographic 
+7. QEMU_AUDIO_DRV=none qemu-system-arm -M vexpress-a9 -kernel zImage -initrd initramfs.cpio.gz  -dtb vexpress-v2p-ca9.dtb -append "console=ttyAMA0 rdinit=/bin/ash" -nographic 
