@@ -1,4 +1,4 @@
-obj-m += module2.o #module1.o
+obj-m += module3.o
 
 all:
 	make -C /lib/modules/6.1.0-28-amd64/build M=$(PWD) modules
